@@ -1,0 +1,48 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bitcoin Price Tracker</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+  <body>
+    <header>
+      <h1>Bitcoin Price Tracker</h1>
+    </header>
+    <main>
+      <div class="search-bar">
+        <form action="/search" method="POST">
+          <input
+            type="text"
+            name="crypto"
+            placeholder="Search for a cryptocurrency..."
+          />
+          <button type="submit">Search</button>
+        </form>
+      </div>
+      <div class="price-table">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Cryptocurrency</th>
+              <th>Symbol</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for crypto in crypto_data %}
+            <tr>
+              <td>{{ loop.index }}</td>
+              <td><a href={{ url_for('detail',id=crypto[2]) }}>{{ crypto[0] }}</a></td>
+              <td><a href={{ url_for('detail',id=crypto[2]) }}>{{ crypto[1] }}</a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </body>
+</html>
