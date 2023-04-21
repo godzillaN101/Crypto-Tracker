@@ -1,66 +1,43 @@
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bitcoin Price Tracker</title>
-    <script src="https://cdn.anychart.com/releases/8.10.0/js/anychart-base.min.js"></script>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/style.css') }}"
-    />
-  </head>
-  <body>
-    <header>
-      <h1>Bitcoin Price Tracker</h1>
-    </header>
-    <main>
-      <div class="search-bar">
-        <form action="/search" method="POST">
-          <input
-            type="text"
-            name="crypto"
-            placeholder="Search for a cryptocurrency..."
-          />
-          <button type="submit">Search</button>
-        </form>
-      </div>
-      <h1>{{coin_id}}</h1>
-      <div id="container">
-        <script>
-          function getData(){
-              date_list = []
-              {%for date,price in data%}
-              var dt = new Date({{date}} * 1000)
-              dt = dt.getDate() + ':' + dt.getHours()
-              date_list.push([dt,{{price}}])
-              {%endfor%}
-              return date_list
-          }
-          var dataSet = anychart.data.set(getData());
-          var seriesData = dataSet.mapAs({ x: 0, value: 1 });
-          var chart = anychart.line();
-          chart.title('Crypto Market Price Change');
-          chart.yAxis().title('Price in USD');
-          var lineChart = chart.line(seriesData);
-          chart.container('container');
-          chart.draw();
-        </script>
-      </div>
-      <div class="price-table">
-        <table>
-          <thead>
-            <tr>
-              <th colspan="2">{{coin_id}}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Current Price (USD)</td>
-              <td>$ {{data[-1][1]}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </main>
-  </body>
-</html>
+{% extends 'base.html' %} {% block head%}
+<script src="https://cdn.anychart.com/releases/8.10.0/js/anychart-base.min.js"></script>
+{%endblock%} {% block body %}
+
+<h1>{{coin_id}}</h1>
+<div id="container">
+  <script>
+    function getData(){
+        date_list = []
+        {%for date,price in data%}
+        var dt = new Date({{date}} * 1000)
+        dt = dt.getDate() + ':' + dt.getHours()
+        date_list.push([dt,{{price}}])
+        {%endfor%}
+        return date_list
+    }
+    var dataSet = anychart.data.set(getData());
+    var seriesData = dataSet.mapAs({ x: 0, value: 1 });
+    var chart = anychart.line();
+    chart.title('Crypto Market Price Change');
+    chart.yAxis().title('Price in USD');
+    var lineChart = chart.line(seriesData);
+    chart.container('container');
+    chart.draw();
+  </script>
+</div>
+<div class="price-table">
+  <table>
+    <thead>
+      <tr>
+        <th colspan="2">{{coin_id}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Current Price (USD)</td>
+        <td>$ {{data[-1][1]}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

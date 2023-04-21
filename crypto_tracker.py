@@ -56,7 +56,7 @@ def detail(id):
         dt[0] = str(dt[0])[:-3]
     #     dt[0] = str(datetime.datetime.utcfromtimestamp(int(dt[0])).strftime('%Y-%m-%d'))
     data = data['prices']
-    print(data[0][0])
+    print(data)
     return render_template('detail.html',data=data,coin_id=coin_id)
 
 if __name__ == '__main__':
